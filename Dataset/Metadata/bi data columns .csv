@@ -1,0 +1,166 @@
+﻿Alignment,Table,Name,DataCategory,DataType,Type,Expression,FormatString,SortByColumn,SourceColumn,SummarizeBy
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Date,PaddedDateTableDates,Date,CalculatedTableColumn,,,,Date,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Date,PaddedDateTableDates,Date,CalculatedTableColumn,,,,Date,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Date,PaddedDateTableDates,Date,CalculatedTableColumn,,,,Date,None
+Default,DIM_Products,ProductCost,Regular,Currency,Data,,"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,ProductCost,Sum
+Default,DIM_Products,ProductPrice,Regular,Currency,Data,,"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,ProductPrice,Sum
+Default,DIM_Customers,CustomerDOB,Regular,Date,Data,,Long Date,,CustomerDOB,None
+Default,DIM_Orders,DeliveryDate,Regular,Date,Data,,Long Date,,DeliveryDate,None
+Default,DIM_Orders,OrderDate,Regular,Date,Data,,Long Date,,OrderDate,None
+Default,DIM_Stores,StoreOpenDate,Regular,Date,Data,,Long Date,,StoreOpenDate,None
+Default,Calender,Date,Regular,Date,CalculatedTableColumn,,Short Date,,Date,None
+Default,Customer Order Distribution,First_Purchease_Date,Regular,Date,CalculatedTableColumn,,Short Date,,First_Purchease_Date,None
+Default,AVG_Parameter,AVG_Parameter Order,Regular,Integer,CalculatedTableColumn,,0,,AVG_Parameter Order,Sum
+Default,Customer_Parameter,Customer_Parameter Order,Regular,Integer,CalculatedTableColumn,,0,,Customer_Parameter Order,Sum
+Default,Customer Order Distribution,CustomerID,Regular,Integer,CalculatedTableColumn,,0,,CustomerID,None
+Default,DIM_Orders,CustomerID,Regular,Integer,Data,,0,,CustomerID,None
+Default,Table,ID,Regular,Integer,CalculatedTableColumn,,0,,ID,Count
+Default,FACT_Order_Line_Items,LineItem,Regular,Integer,Data,,0,,LineItem,Sum
+Default,MovingAVG-DAYS,MovingAVG-DAYS,Regular,Integer,CalculatedTableColumn,,0,,MovingAVG-DAYS,None
+Default,Number_TopButtom,Number_TopButtom,Regular,Integer,CalculatedTableColumn,,0,,Number_TopButtom,None
+Default,DIM_Orders,OrderNumber,Regular,Integer,Data,,0,,OrderNumber,None
+Default,FACT_Order_Line_Items,OrderNumber,Regular,Integer,Data,,0,,OrderNumber,None
+Default,Customer Order Distribution,OrdersCount,Regular,Integer,CalculatedTableColumn,,0,,OrdersCount,None
+Default,Parameter_CUS_NUMBER,Parameter,Regular,Integer,CalculatedTableColumn,,0,,Parameter,None
+Default,ParameterMAIN,Parameter Order,Regular,Integer,CalculatedTableColumn,,0,,Parameter Order,Sum
+Default,Parameter_Geo ,Parameter_Geo  Order,Regular,Integer,CalculatedTableColumn,,0,,Parameter_Geo  Order,Sum
+Default,Parameter_product,Parameter_product Order,Regular,Integer,CalculatedTableColumn,,0,,Parameter_product Order,Sum
+Default,Parameter_product_scraterplot,Parameter_product_scraterplot Order,Regular,Integer,CalculatedTableColumn,,0,,Parameter_product_scraterplot Order,Sum
+Default,DIM_Product_Category,ProductCategoryID,Regular,Integer,Data,,0,,ProductCategoryID,None
+Default,DIM_product_subcatagory,ProductCategoryID,Regular,Integer,Data,,0,,ProductCategoryID,None
+Default,Store_Product_Relation,ProductID,Regular,Integer,Data,,0,,ProductID,Count
+Default,DIM_Products,ProductID,Regular,Integer,Data,,0,,ProductID,None
+Default,FACT_Order_Line_Items,ProductID,Regular,Integer,Data,,0,,ProductID,None
+Default,FACT_Order_Line_Items,Quantity,Regular,Integer,Data,,0,,Quantity,Sum
+Default,DIM_Orders,StoreID,Regular,Integer,Data,,0,,StoreID,None
+Default,DIM_Stores,StoreID,Regular,Integer,Data,,0,,StoreID,None
+Default,Store_Product_Relation,StoreID,Regular,Integer,Data,,0,,StoreID,None
+Default,DIM_Stores,StoreSqMeters,Regular,Integer,Data,,0,,StoreSqMeters,Sum
+Default,FACT_Order_Line_Items,TransactionID,Regular,Integer,Data,,0,,TransactionID,Count
+Default, Measures,Value,Regular,Integer,CalculatedTableColumn,,0,,Value,Sum
+Default,Table,Alignment,Regular,Text,CalculatedTableColumn,,,,Alignment,None
+Default,Table,AlternateOf,Regular,Text,CalculatedTableColumn,,,,AlternateOf,None
+Default,AVG_Parameter,AVG_Parameter,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter,None
+Default,AVG_Parameter,AVG_Parameter Fields,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter Fields,None
+Default,Table,ColumnStorage,Regular,Text,CalculatedTableColumn,,,,ColumnStorage,None
+Default,Customer_Parameter,Customer_Parameter,Regular,Text,CalculatedTableColumn,,,Customer_Parameter Order,Customer_Parameter,None
+Default,Customer_Parameter,Customer_Parameter Fields,Regular,Text,CalculatedTableColumn,,,Customer_Parameter Order,Customer_Parameter Fields,None
+Default,DIM_Customers,CustomerCity,Regular,Text,Data,,,,CustomerCity,None
+Default,Geo,CustomerCity,Regular,Text,Data,,,,CustomerCity,None
+Default,Geo,CustomerContinent,Regular,Text,Data,,,,CustomerContinent,None
+Default,Geo,CustomerCountry,Regular,Text,Data,,,,CustomerCountry,None
+Default,DIM_Customers,CustomerGender,Regular,Text,Data,,,,CustomerGender,None
+Default,DIM_Customers,CustomerID,Regular,Text,Data,,,,CustomerID,None
+Default,DIM_Customers,CustomerName,Regular,Text,Data,,,,CustomerName,None
+Default,Geo,CustomerState,Regular,Text,Data,,,,CustomerState,None
+Default,Geo,CustomerStateCode,Regular,Text,Data,,,,CustomerStateCode,None
+Default,Geo,CustomerZip,Regular,Text,Data,,,,CustomerZip,None
+Default,Table,DataCategory,Regular,Text,CalculatedTableColumn,,,,DataCategory,None
+Default,Table,DataType,Regular,Text,CalculatedTableColumn,,,,DataType,None
+Default,DIM_Orders,Delivary_Status,Regular,Text,Data,,,,Delivary_Status,None
+Default,Table,Description,Regular,Text,CalculatedTableColumn,,,,Description,None
+Default,Table,DisplayFolder,Regular,Text,CalculatedTableColumn,,,,DisplayFolder,None
+Default,Table,Expression,Regular,Text,CalculatedTableColumn,,,,Expression,None
+Default,Table,FormatString,Regular,Text,CalculatedTableColumn,,,,FormatString,None
+Default,Table,GroupingBehavior,Regular,Text,CalculatedTableColumn,,,,GroupingBehavior,None
+Default,Table,LineageTag,Regular,Text,CalculatedTableColumn,,,,LineageTag,None
+Default,Table,Name,Regular,Text,CalculatedTableColumn,,,,Name,None
+Default,ParameterMAIN,Parameter,Regular,Text,CalculatedTableColumn,,,Parameter Order,Parameter,None
+Default,ParameterMAIN,Parameter Fields,Regular,Text,CalculatedTableColumn,,,Parameter Order,Parameter Fields,None
+Default,Parameter_Geo ,Parameter_Geo ,Regular,Text,CalculatedTableColumn,,,Parameter_Geo  Order,Parameter_Geo ,None
+Default,Parameter_Geo ,Parameter_Geo  Fields,Regular,Text,CalculatedTableColumn,,,Parameter_Geo  Order,Parameter_Geo  Fields,None
+Default,Parameter_product,Parameter_product,Regular,Text,CalculatedTableColumn,,,Parameter_product Order,Parameter_product,None
+Default,Parameter_product,Parameter_product Fields,Regular,Text,CalculatedTableColumn,,,Parameter_product Order,Parameter_product Fields,None
+Default,Parameter_product_scraterplot,Parameter_product_scraterplot,Regular,Text,CalculatedTableColumn,,,Parameter_product_scraterplot Order,Parameter_product_scraterplot,None
+Default,Parameter_product_scraterplot,Parameter_product_scraterplot Fields,Regular,Text,CalculatedTableColumn,,,Parameter_product_scraterplot Order,Parameter_product_scraterplot Fields,None
+Default,DIM_Products,ProductBrand,Regular,Text,Data,,,,ProductBrand,None
+Default,DIM_Product_Category,ProductCategory,Regular,Text,Data,,,,ProductCategory,None
+Default,DIM_Products,ProductColor,Regular,Text,Data,,,,ProductColor,None
+Default,DIM_Products,ProductName,Regular,Text,Data,,,,ProductName,None
+Default,DIM_product_subcatagory,ProductSubcategory,Regular,Text,Data,,,,ProductSubcategory,None
+Default,DIM_product_subcatagory,ProductSubcategoryID,Regular,Text,Data,,,,ProductSubcategoryID,None
+Default,DIM_Products,ProductSubcategoryID,Regular,Text,Data,,,,ProductSubcategoryID,None
+Default,Table,SortByColumn,Regular,Text,CalculatedTableColumn,,,,SortByColumn,None
+Default,Table,SourceColumn,Regular,Text,CalculatedTableColumn,,,,SourceColumn,None
+Default,Table,SourceProviderType,Regular,Text,CalculatedTableColumn,,,,SourceProviderType,None
+Default,DIM_Stores,StoreCountry,Regular,Text,Data,,,,StoreCountry,None
+Default,DIM_Stores,StoreState,Regular,Text,Data,,,,StoreState,None
+Default,Table,SummarizeBy,Regular,Text,CalculatedTableColumn,,,,SummarizeBy,None
+Default,Table,Table,Regular,Text,CalculatedTableColumn,,,,Table,None
+Default,Table,Type,Regular,Text,CalculatedTableColumn,,,,Type,None
+Default,Table_TopButtom_Sclicer,Value,Regular,Text,Data,,,,Value,None
+Default,Table,IsAvailableInMDX,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsAvailableInMDX,None
+Default,Table,IsHidden,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsHidden,None
+Default,Table,IsKey,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsKey,None
+Default,Table,IsNullable,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsNullable,None
+Default,Table,IsUnique,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsUnique,None
+Default, Measures,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,AVG_Parameter,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Calender,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Customer Order Distribution,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Customer_Parameter,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_Customers,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_Orders,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_Product_Category,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_product_subcatagory,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_Products,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,DIM_Stores,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,FACT_Order_Line_Items,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Geo,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,MovingAVG-DAYS,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Number_TopButtom,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Parameter_CUS_NUMBER,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Parameter_Geo ,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Parameter_product,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Parameter_product_scraterplot,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,ParameterMAIN,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Store_Product_Relation,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Table,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Table_TopButtom_Sclicer,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
+Default,Calender,Quater_No,Regular,Text,Calculated,"""Q"" & FORMAT(Calender[Date],""Q"")",,,,None
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Quarter,Quarters,Text,Calculated,"""Qtr "" & [QuarterNo]",,QuarterNo,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Quarter,Quarters,Text,Calculated,"""Qtr "" & [QuarterNo]",,QuarterNo,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Quarter,Quarters,Text,Calculated,"""Qtr "" & [QuarterNo]",,QuarterNo,,None
+Default,DIM_Customers,AGE,Regular,Integer,Calculated,"DATEDIFF(DIM_Customers[CustomerDOB],MAX(DIM_Orders[DeliveryDate]), YEAR)",0,,,Sum
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Day,DayOfMonth,Integer,Calculated,DAY([Date]),,,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Day,DayOfMonth,Integer,Calculated,DAY([Date]),,,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Day,DayOfMonth,Integer,Calculated,DAY([Date]),,,,None
+Default,Calender,End of Month,Regular,Date,Calculated,ENDOFMONTH(Calender[Date]),Short Date,,,None
+Default,FACT_Order_Line_Items,Revenue,Regular,Currency,Calculated,FACT_Order_Line_Items[Quantity] * FACT_Order_Line_Items[Product price],"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,,Sum
+Default,FACT_Order_Line_Items,COGS,Regular,Currency,Calculated,FACT_Order_Line_Items[Quantity]*FACT_Order_Line_Items[ProductCost],"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,,Sum
+Default,FACT_Order_Line_Items,Profit,Regular,Currency,Calculated,FACT_Order_Line_Items[Revenue] - FACT_Order_Line_Items[COGS],"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,,Sum
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Month,Months,Text,Calculated,"FORMAT([Date], ""MMMM"")",,MonthNo,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Month,Months,Text,Calculated,"FORMAT([Date], ""MMMM"")",,MonthNo,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Month,Months,Text,Calculated,"FORMAT([Date], ""MMMM"")",,MonthNo,,None
+Default,Calender,Day_No,Regular,Text,Calculated,"FORMAT(Calender[Date],""dd"")",,,,None
+Default,Calender,Day_Name,Regular,Text,Calculated,"FORMAT(Calender[Date],""dddd"")",,Weekday,,None
+Default,Calender,Month,Regular,Text,Calculated,"FORMAT(Calender[Date],""mm"")",,,,None
+Default,Calender,Month_Name,Regular,Text,Calculated,"FORMAT(Calender[Date],""mmmm"")",,Month,,None
+Default,Calender,Reporting_Period,Regular,Text,Calculated,"FORMAT(Calender[Date],""mmm-yy"")",,End of Month,,None
+Default,Calender,Year,Regular,Text,Calculated,"FORMAT(Calender[Date],""yyyy"")",,,,None
+Default,DIM_Orders,Delivery_Time,Regular,Integer,Calculated,"IFERROR(DATEDIFF(DIM_Orders[OrderDate],DIM_Orders[DeliveryDate],DAY), BLANK())",0,,,Sum
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,QuarterNo,QuarterOfYear,Integer,Calculated,INT(([MonthNo] + 2) / 3),,,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,QuarterNo,QuarterOfYear,Integer,Calculated,INT(([MonthNo] + 2) / 3),,,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,QuarterNo,QuarterOfYear,Integer,Calculated,INT(([MonthNo] + 2) / 3),,,,None
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,MonthNo,MonthOfYear,Integer,Calculated,MONTH([Date]),,,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,MonthNo,MonthOfYear,Integer,Calculated,MONTH([Date]),,,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,MonthNo,MonthOfYear,Integer,Calculated,MONTH([Date]),,,,None
+Default,FACT_Order_Line_Items,CustomerID,Regular,Text,Calculated,RELATED(DIM_Customers[CustomerID]),0,,,None
+Default,FACT_Order_Line_Items,ProductCost,Regular,Currency,Calculated,RELATED(DIM_Products[ProductCost]),"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,,Sum
+Default,FACT_Order_Line_Items,Product price,Regular,Currency,Calculated,RELATED(DIM_Products[ProductPrice]),"""₹""\ #,0.###############;#,0.###############\ -""₹"";""₹""\ #,0.###############",,,None
+Default,Calender,Start of month,Regular,Date,Calculated,STARTOFMONTH(Calender[Date]),Short Date,,,None
+Default,Calender,Start of quater,Regular,Date,Calculated,STARTOFQUARTER(Calender[Date]),Short Date,,,None
+Default,DIM_Customers,Age_Group,Regular,Text,Calculated,"SWITCH(TRUE(),DIM_Customers[AGE] > 60, ""Above 60"",AND(DIM_Customers[AGE] >45,DIM_Customers[AGE] <= 60), ""46 to 60"",AND(DIM_Customers[AGE] >30,DIM_Customers[AGE] <= 45), ""31 to 45"",AND(DIM_Customers[AGE] >18,DIM_Customers[AGE] <= 30), ""19 to 30 "", DIM_Customers[AGE] <= 18, ""Below 18"")",,,,None
+Default,DIM_Stores,Store Type,Regular,Text,Calculated,"SWITCH(TRUE(),DIM_Stores[StoreSqMeters] >= 2000 , ""Hyper-Mart"",
+                AND(DIM_Stores[StoreSqMeters] >= 1000, DIM_Stores[StoreSqMeters] < 2000),""Mega-Mart"",
+                AND(DIM_Stores[StoreSqMeters] >= 500, DIM_Stores[StoreSqMeters] < 1000),""Super-Mart"",
+                AND(DIM_Stores[StoreSqMeters] > 0, DIM_Stores[StoreSqMeters] < 500),""Small-Mart"",
+                DIM_Stores[StoreSqMeters] = 0, ""Online"" )",,,,None
+Default,Calender,Weekday,Regular,Integer,Calculated,"WEEKDAY(Calender[Date],2)",0,,,None
+Default,Calender,Weeknum,Regular,Integer,Calculated,"WEEKNUM(Calender[Date],11)",0,,,None
+Default,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Year,Years,Integer,Calculated,YEAR([Date]),,,,None
+Default,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Year,Years,Integer,Calculated,YEAR([Date]),,,,None
+Default,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Year,Years,Integer,Calculated,YEAR([Date]),,,,None

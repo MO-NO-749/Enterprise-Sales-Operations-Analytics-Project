@@ -1,0 +1,10 @@
+﻿TRANSACTIONS,dbo,sysdiagrams,BASE TABLE
+TRANSACTIONS,dbo,Transactions,BASE TABLE
+TRANSACTIONS,dbo,Stores,VIEW
+TRANSACTIONS,dbo,Customers,VIEW
+TRANSACTIONS,dbo,Products,VIEW
+TRANSACTIONS,dbo,product_subcatagory,VIEW
+TRANSACTIONS,dbo,Product_Category,VIEW
+TRANSACTIONS,dbo,Store_Product_Relation,VIEW
+TRANSACTIONS,dbo,Order_Line_Items,VIEW
+TRANSACTIONS,dbo,Orders,VIEW

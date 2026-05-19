@@ -1,0 +1,1248 @@
+﻿DisplayFolder,Expression,Description,FormatString
+COGS\Color,"
+    VAR per = [MOM % Cogs]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+COGS\Color,"
+    VAR per = [YOY % Cogs]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+COGS\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+    VAR Currentyearcogs = CALCULATE([Total COGS],Calender[Start of month] = LATESTPERIOD)
+    VAR Previousyearcogs= CALCULATE([Total COGS], Calender[Start of month] = EDATE(LATESTPERIOD,-1))
+    VAR Result = DIVIDE((Currentyearcogs-Previousyearcogs),Previousyearcogs,BLANK())
+    
+    RETURN     Result
+",Month-over-month percentage change in COGS using a direct EDATE calendar month comparison (alternate MOM calculation).,
+COGS\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total COGS], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonthSales =  
+        CALCULATE( 
+            [Total COGS], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonthSales > 0 ,
+            DIVIDE((curretMonthSales - PreviousMonthSales), PreviousMonthSales , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+     Result
+","Month-over-month percentage change in COGS, comparing the latest full month to the immediately preceding month.",
+COGS\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of quater])
+
+    VAR Currentyearcogs = CALCULATE([Total COGS],ALL(Calender),Calender[Start of quater] = LATESTPERIOD)
+    VAR Previousyearcogs= CALCULATE([Total COGS],ALL(Calender),Calender[Start of quater] = EDATE(LATESTPERIOD,-3))
+    VAR Result = DIVIDE((Currentyearcogs-Previousyearcogs),Previousyearcogs,BLANK())
+    
+    RETURN    Result","Quarter-over-quarter percentage change in COGS, comparing the latest quarter to the immediately preceding quarter.",
+COGS\Measure,"
+    VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+
+    VAR Currentyearcogs = CALCULATE([Total COGS],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Total COGS],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = IF(Previousyearcogs > 0,DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK()),BLANK())
+    
+    RETURN Result","Year-over-year percentage change in COGS, comparing the current calendar year total to the same period in the prior year.",
+COGS\Measure,"
+
+   VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total COGS], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+        RETURN
+        PreviousMonthSales","Previous month's COGS calculated via a custom DATESBETWEEN range, used as the reference value for MOM % Cogs.",
+COGS\Measure,"
+
+VAR startdate = LASTDATE(DIM_Orders[OrderDate]) //change on context
+
+VAR period = DATESINPERIOD(Calender[Date],startdate,-'MovingAVG-DAYS'[MovingAVG-DAYS Value],DAY)
+
+VAR cal = CALCULATE(AVERAGEX(VALUES(Calender[Date]),[Total COGS]),//change on context
+                        period
+                    )  
+
+VAR RESULT = IF([Total COGS] //change on context 
+                    = BLANK() , 0, cal) 
+
+RETURN RESULT","Rolling average daily COGS over a user-selected window of days, driven by the MovingAVG-DAYS parameter slicer.",
+COGS\Measure,"CALCULATE(TOTALMTD([Total COGS],Calender[Date]))","Month-to-date cumulative COGS from the first day of the current month to the latest available date, using TOTALMTD.",
+COGS\Measure,"CALCULATE(TOTALYTD([Total COGS],Calender[Date]))","Year-to-date cumulative COGS from the first day of the calendar year to the latest available date, using TOTALYTD.",
+COGS\Measure,"DIVIDE([Total COGS],[Total Revenue],BLANK())","Cost of goods sold expressed as a percentage of total revenue, reflecting the proportion of sales consumed by direct costs.",
+COGS\Measure,SUM(FACT_Order_Line_Items[COGS]),Total cost of goods sold summed from all order line items in the selected period (source: FACT_Order_Line_Items[COGS]).,
+COGS\Text,"
+    VAR YTD_ = CALCULATE([YTD-COGS],// change
+            ALL(Calender)
+            ) 
+    VAR maxyear = CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)
+                )
+    VAR mindateformat = FORMAT(CALCULATE(MIN(Calender[Date]),ALL(Calender),
+                    YEAR(Calender[Date]) = YEAR(maxyear)),
+                    ""mmm'yy""
+                )
+     VAR maxyearformat = FORMAT(CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)), ""mmm'yy""
+                )
+
+    VAR num_format = ROUND(
+                        DIVIDE(YTD_,1000000,BLANK()),2)
+
+
+    VAR Result = ""YTD (""  & mindateformat & ""-"" & maxyearformat & "") - "" & num_format & ""M""
+        
+        RETURN 
+                Result
+",,
+Customer Analysis,"
+        DIVIDE(DISTINCTCOUNT(DIM_Orders[OrderNumber]),DISTINCTCOUNT(DIM_Orders[CustomerID]))","Average number of orders placed per unique customer (Total Orders / Total Customers), measuring purchase frequency.",
+Customer Analysis,"
+    CALCULATE (
+    MIN (DIM_Orders[OrderDate]),ALL(Calender))
+","The earliest order date recorded across all time for a given customer, used as the basis for identifying new vs returning customers.",
+Customer Analysis,"
+    VAR Selected_ = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+    VAR selected2 = SWITCH(TRUE(),Selected_ = 0, "" of Revenue""
+                                    ,Selected_ = 1, "" of Cogs""
+                                    ,Selected_ = 2, "" of Profit""
+                                    ,Selected_ = 3, "" of unit"" )
+    
+        VAR paramiter_ = SWITCH(TRUE()
+            , [%_of_paramiter]= BLANK(),""""
+            , [%_of_paramiter] < 0 , FORMAT([%_of_paramiter],""0.00"" & ""%"") & selected2  
+            , [%_of_paramiter] >= 0 , FORMAT([%_of_paramiter],""0.00"" & ""%"") & selected2  
+        )
+
+
+    VAR result = SWITCH(
+                        TRUE()
+                        ,Selected_ = 0 , FORMAT([Total Revenue],""₹ #,0.00"") & "" | ""& paramiter_
+                        ,Selected_ = 1 ,FORMAT([Total COGS],""₹ #,0.00"") & "" | ""& paramiter_
+                        ,Selected_ = 2 , FORMAT([Total Profit],""₹ #,0.00"") & "" | ""& paramiter_
+                        ,Selected_ = 3 , FORMAT([Total Units],""#,0"") & "" | ""& paramiter_
+    )
+                       
+RETURN
+result",,
+Customer Analysis,"
+  
+VAR Period = MONTH(MAX(Calender[Date]))
+
+VAR Customers_Current_Period = CALCULATE([Total Customers],FILTER(Calender,MONTH(Calender[Date]) = Period))
+VAR Customers_Previous_Period = CALCULATE([Total Customers],DATEADD(Calender[Date], -1,MONTH))
+
+VAR New_Customers_Current_Period= [New Customers]
+
+VAR Result = DIVIDE((Customers_Current_Period - New_Customers_Current_Period),Customers_Previous_Period)
+
+RETURN
+Result","Month-over-month retention rate: customers retained from the previous month relative to that month's base, excluding new customers acquired in the current month.",
+Customer Analysis,"
+VAR Rank_Base = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+VAR Ravenue = CALCULATE([Total Revenue],ALL(DIM_Customers))
+VAR Cogs = CALCULATE([Total COGS], ALLSELECTED(DIM_Customers[CustomerID]))
+VAR Profit = CALCULATE([Total Profit], ALLSELECTED(DIM_Customers[CustomerID]))
+VAR Unit = CALCULATE([Total Units], ALLSELECTED(DIM_Customers[CustomerID]))
+
+
+VAR t = [Total Revenue]/Ravenue
+VAR Cumulative_Paramiter = SWITCH(TRUE(),Rank_Base = 0 ,[Total Revenue]/Ravenue
+                                        ,Rank_Base = 1 , [Total COGS]/Cogs
+                                        ,Rank_Base = 2 , [Total Profit]/Profit
+                                        ,Rank_Base = 3 , [Total Units]/Unit)
+                                        
+RETURN
+Cumulative_Paramiter",,
+Customer Analysis,"
+VAR Rank_Base = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+VAR Ranking_number = Parameter_CUS_NUMBER[Parameter Value]
+
+VAR Rank_Revenue = CALCULATE(RANKX(ALLSELECTED(DIM_Customers[CustomerID]),[Total Revenue],,DESC,Dense),USERELATIONSHIP('Customer Order Distribution'[CustomerID],DIM_Customers[CustomerID]))
+VAR Rank_Cogs = CALCULATE(RANKX(ALLSELECTED(DIM_Customers[CustomerID]),[Total COGS],,DESC,Dense),USERELATIONSHIP('Customer Order Distribution'[CustomerID],DIM_Customers[CustomerID]))
+VAR Rank_Profit = CALCULATE(RANKX(ALLSELECTED(DIM_Customers[CustomerID]),[Total Profit],,DESC,Dense),USERELATIONSHIP('Customer Order Distribution'[CustomerID],DIM_Customers[CustomerID]))
+VAR Rank_Unit = CALCULATE(RANKX(ALLSELECTED(DIM_Customers[CustomerID]),[Total Units],,DESC,Dense),USERELATIONSHIP('Customer Order Distribution'[CustomerID],DIM_Customers[CustomerID]))
+
+VAR Ranking = SWITCH(TRUE(),Rank_Base = 0, Rank_Revenue
+                            ,Rank_Base = 1, Rank_Cogs
+                            ,Rank_Base = 2, Rank_Profit
+                            ,Rank_Base = 3, Rank_Unit)
+
+VAR Result_ = SWITCH(TRUE(),Ranking <= Parameter_CUS_NUMBER[Parameter Value] && Rank_Base = 0, [Total Revenue]
+                        ,Ranking <= Parameter_CUS_NUMBER[Parameter Value] && Rank_Base = 1, [Total COGS]
+                        ,Ranking <= Parameter_CUS_NUMBER[Parameter Value] && Rank_Base = 2, [Total Profit]
+                        ,Ranking <= Parameter_CUS_NUMBER[Parameter Value] && Rank_Base = 3, [Total Units])
+
+RETURN
+Result_",,
+Customer Analysis,"
+VAR TOP_CUS = TOPN(Parameter_CUS_NUMBER[Parameter Value],ALL(DIM_Customers[CustomerID]),[%_of_paramiter])
+
+var Result = CALCULATE([%_of_paramiter],KEEPFILTERS(TOP_CUS)) 
+
+Return Result",,
+Customer Analysis,"
+VAR TOTAL = [Total Customers]
+
+var Repeat_Customers = CALCULATE(COUNT('Customer Order Distribution'[CustomerID]),'Customer Order Distribution'[OrdersCount] > 1 )
+
+VAR result = DIVIDE(Repeat_Customers,TOTAL)
+RETURN
+result","Percentage of customers who placed more than one order, indicating loyalty and repeat buying behaviour.",
+Customer Analysis,"
+VAR Total_ = [Total_Orders_ALL]
+VAR CUS = [Total Customers]
+VAR Result = DIVIDE(Total_,CUS)
+
+RETURN
+Result","Average number of orders placed per customer across all order statuses, including undelivered orders (Total_Orders_ALL / Total Customers).",
+Customer Analysis,"
+VAR Total_Customers = CALCULATE([Purchase Frequency],ALL(Calender))
+VAR Max_Customers =
+MAXX(ALL(Calender[Month_Name]),[Purchase Frequency]
+)
+VAR Max_Point =
+IF(
+    Total_Customers = Max_Customers,
+    [Purchase Frequency],
+    BLANK()
+)
+RETURN
+Max_Point",,
+Customer Analysis,[AOV]* [Purchase Frequency],"Estimated customer lifetime value, calculated as Average Order Value multiplied by Purchase Frequency.",
+Customer Analysis,"CALCULATE(COUNTROWS('Customer Order Distribution'),USERELATIONSHIP(Calender[Date],'Customer Order Distribution'[First_Purchease_Date]))",,
+Customer Analysis,"CALCULATE(DISTINCTCOUNT(DIM_Orders[OrderNumber]),DIM_Orders[Delivary_Status] = ""Delivered"")  ",Count of distinct delivered orders in the selected period (filters DIM_Orders where Delivery_Status = Delivered).,
+Customer Analysis,"DIVIDE([Returning Customers],[Total Customers])",Proportion of customers in the selected period who are returning buyers (Returning Customers / Total Customers).,
+Customer Analysis,"DIVIDE([Total Revenue],[Total Customers])",Average revenue generated per unique customer in the selected period (Total Revenue / Total Customers).,
+Customer Analysis,"DIVIDE([Total Revenue],[Total Orders])",Average order value for delivered orders (Total Revenue / Total Orders).,
+Customer Analysis\New Customers,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+    VAR PreviousMonth_Customers = 
+        CALCULATE( 
+            [New Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonth_Customers =  
+        CALCULATE( 
+            [New Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonth_Customers > 0 ,
+            DIVIDE((curretMonth_Customers - PreviousMonth_Customers), PreviousMonth_Customers , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+     Result","Month-over-month percentage change in new customer acquisitions, comparing the latest full month to the immediately preceding month.",
+Customer Analysis\New Customers,"
+    VAR per = [MOM % NEW Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\New Customers,"
+    VAR per = [YOY% New Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\New Customers,"
+VAR CustomerFirstPurchase = ADDCOLUMNS(SUMMARIZE(
+        DIM_Orders,
+        DIM_Orders[CustomerID]),
+        ""FirstPurchase"", [First Purchase Date])
+VAR Result_ = COUNTROWS(FILTER(CustomerFirstPurchase,[FirstPurchase] >= MIN(Calender[Date]) && [FirstPurchase] <= MAX(Calender[Date])
+            ))
+RETURN Result_","Count of customers whose very first purchase date falls within the selected period, identifying net-new buyers.",
+Customer Analysis\New Customers,"
+VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+
+    VAR Currentyearcogs = CALCULATE([New Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([New Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = IF(Previousyearcogs > 0,DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK()),BLANK())
+    
+    RETURN Result","Year-over-year percentage change in new customers, comparing the current calendar year total to the same period in the prior year.",
+Customer Analysis\New Customers,"CALCULATE(TOTALMTD([New Customers],Calender[Date]))","Month-to-date count of new customers acquired from the first day of the current month to the latest date, using TOTALMTD.",
+Customer Analysis\Returning Customers,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+    VAR PreviousMonth_Customers = 
+        CALCULATE( 
+            [Returning Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonth_Customers =  
+        CALCULATE( 
+            [Returning Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonth_Customers > 0 ,
+            DIVIDE((curretMonth_Customers - PreviousMonth_Customers), PreviousMonth_Customers , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+     Result","Month-over-month percentage change in returning customers, comparing the latest full month to the immediately preceding month.",
+Customer Analysis\Returning Customers,"
+    VAR per = [MOM % Returning Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\Returning Customers,"
+    VAR per = [YOY% Returning Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\Returning Customers,"
+VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+    VAR Currentyearcogs = CALCULATE([Returning Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Returning Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = IF(Previousyearcogs > 0,DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK()),BLANK())
+    
+    RETURN Result","Year-over-year percentage change in returning customers, comparing the current calendar year total to the same period in the prior year.",
+Customer Analysis\Returning Customers,[Total Customers] - [New Customers] ,Customers who purchased in the selected period but had a prior purchase history (Total Customers minus New Customers).,
+Customer Analysis\Returning Customers,"CALCULATE(TOTALMTD([Returning Customers],Calender[Date]))","Month-to-date count of returning customers from the first day of the current month to the latest date, using TOTALMTD.",
+Customer Analysis\Total Customers,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonth_Customers = 
+        CALCULATE( 
+            [Total Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonth_Customers =  
+        CALCULATE( 
+            [Total Customers], 
+            ALL(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonth_Customers > 0 ,
+            DIVIDE((curretMonth_Customers - PreviousMonth_Customers), PreviousMonth_Customers , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+     Result
+","Month-over-month percentage change in total customers, comparing the latest full month to the immediately preceding month.",
+Customer Analysis\Total Customers,"
+    VAR per = [MOM % Total Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\Total Customers,"
+    VAR per = [YOY% Total Customers]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Customer Analysis\Total Customers,"
+VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+    VAR Currentyearcogs = CALCULATE([Total Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Total Customers],ALL(Calender),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = IF(Previousyearcogs > 0,DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK()),BLANK())
+    
+    RETURN Result","Year-over-year percentage change in total customers, comparing the current calendar year to the prior year.",
+Customer Analysis\Total Customers,"CALCULATE(TOTALMTD([Total Customers],Calender[Date]))","Month-to-date count of distinct total customers from the first day of the current month to the latest date, using TOTALMTD.",
+Customer Analysis\Total Customers,DISTINCTCOUNT(DIM_Orders[CustomerID]),Count of distinct customers who placed at least one order in the selected period (source: DIM_Orders[CustomerID]).,
+Delivery Analysis\Measure,"
+VAR delivary_time_Table1 = CALCULATETABLE(DIM_Orders,DIM_Orders[Delivary_Status] = ""Delivered"")
+
+VAR Result = AVERAGEX(delivary_time_Table1,[Delivery_Time])
+RETURN
+Result","Average number of days taken to deliver an order, calculated across all orders with Delivery_Status = Delivered.",
+Delivery Analysis\Measure,"
+VAR ON_TIME = CALCULATE(DISTINCTCOUNT(DIM_Orders[OrderNumber]),DIM_Orders[Delivery_Time] <= MEDIAN(DIM_Orders[Delivery_Time]),DIM_Orders[Delivary_Status]= ""Delivered"")
+VAR TotaL_ = [Total Online Orders]
+
+VAR Result = DIVIDE(ON_TIME,TotaL_)
+
+ RETURN
+ Result","Percentage of delivered orders completed within the median delivery time, used as a proxy for on-time delivery SLA compliance.",
+Delivery Analysis\Measure,CALCULATE(DISTINCTCOUNT(DIM_Orders[OrderNumber])) ,"Count of all distinct orders regardless of delivery status, used as the denominator in order-per-customer calculations.",
+Delivery Analysis\Measure,"CALCULATE(DISTINCTCOUNT(DIM_Orders[OrderNumber]),DIM_Orders[Delivary_Status]= ""Delivered"")","Count of distinct orders with Delivery_Status = Delivered in the selected period, representing fulfilled online orders.",
+Filter,"
+        VAR SELECTED  = ISFILTERED(Calender[Year])
+        VAR SELECTED1  = ISFILTERED(Calender[Month_Name])
+        VAR SELECTED2  = ISFILTERED(Calender[Day_No])
+        VAR SELECTED3  = ISFILTERED(Calender[Day_Name])
+        VAR SELECTED4  = ISFILTERED(Geo[CustomerCountry])
+        VAR SELECTED5  = ISFILTERED(Geo[CustomerState])
+        VAR SELECTED6  = ISFILTERED(Calender[Quater_No])
+        VAR Result  = IF(SELECTED <> BLANK(), 1, 0)
+        VAR Result1  = IF(SELECTED1 <> BLANK(), 1, 0)
+        VAR Result2  = IF(SELECTED2 <> BLANK(), 1, 0)
+        VAR Result3  = IF(SELECTED3 <> BLANK(), 1, 0)
+        VAR Result4  = IF(SELECTED4 <> BLANK(), 1, 0)
+        VAR Result5  = IF(SELECTED5 <> BLANK(), 1, 0)
+        VAR Result6  = IF(SELECTED6 <> BLANK(), 1, 0)
+
+       VAR Result_  = IF(Result + Result1 +Result2 + Result3 +Result4 + Result5 + Result6 < 1 , 0 , Result + Result1 +Result2 + Result3 +Result4 + Result5 + Result6)
+
+        RETURN
+       Result_",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Calender[Day_Name])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Day - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Calender[Month_Name])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Month - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Calender[Quater_No])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Quater - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Calender[Year])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Year - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_Customers[Age_Group])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Age_Group - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_Customers[CustomerGender])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Gender - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_Product_Category[ProductCategory])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Catagory - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_product_subcatagory[ProductSubcategory])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Subcatagory - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_Products[ProductBrand])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Brand - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(DIM_Products[ProductColor])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Color - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Geo[CustomerCity])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""City - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Geo[CustomerContinent])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Continent - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Geo[CustomerCountry])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""Country - "" & Result",,
+Filter,"
+        VAR SELECTED  = SELECTEDVALUE(Geo[CustomerState])
+        VAR Result  = IF(SELECTED = BLANK(), ""(--)"", SELECTED)
+        RETURN
+        ""State - "" & Result",,
+Parameters,"SELECTEDVALUE('MovingAVG-DAYS'[MovingAVG-DAYS], 1)",,
+Parameters,SELECTEDVALUE('Number_TopButtom'[Number_TopButtom]),,
+Parameters,SELECTEDVALUE('Parameter_CUS_NUMBER'[Parameter]),,
+Profit\Color,"
+    VAR per = [MOM % Net Profit]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Profit\Color,"
+    VAR per = [YOY % profit]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Profit\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Profit], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonthSales =  
+        CALCULATE( 
+            [Total Profit], 
+            ALLSELECTED(Calender[Reporting_Period]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonthSales > 0 ,
+            DIVIDE((curretMonthSales - PreviousMonthSales), PreviousMonthSales , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+    Result
+","Month-over-month percentage change in net profit, comparing the latest full month to the immediately preceding month.",
+Profit\Measure,"
+    VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+
+    VAR Currentyearcogs = CALCULATE([Total Profit],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Total Profit],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK())
+    
+    RETURN Result","Year-over-year percentage change in profit, comparing the current calendar year total to the same period in the prior year.",
+Profit\Measure,"
+
+   VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Profit], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+        RETURN
+        PreviousMonthSales","Previous month's profit calculated via a custom DATESBETWEEN range, used as the reference value for MOM % Net Profit.",
+Profit\Measure,"
+
+VAR startdate = LASTDATE(DIM_Orders[OrderDate]) //change on context
+
+VAR period = DATESINPERIOD(Calender[Date],startdate,-'MovingAVG-DAYS'[MovingAVG-DAYS Value],DAY)
+
+VAR cal = CALCULATE(AVERAGEX(VALUES(Calender[Date]),[Total profit]),//change on context
+                        period
+                    )  
+
+VAR RESULT = IF([Total profit] //change on context 
+                    = BLANK() , 0, cal) 
+
+RETURN RESULT","Rolling average daily profit over a user-selected window of days, driven by the MovingAVG-DAYS parameter slicer.",
+Profit\Measure,"CALCULATE(TOTALMTD([Total Profit],Calender[Date]))","Month-to-date cumulative profit from the first day of the current month to the latest available date, using TOTALMTD.",
+Profit\Measure,"CALCULATE(TOTALYTD([Total Profit],Calender[Date]))","Year-to-date cumulative profit from the first day of the calendar year to the latest available date, using TOTALYTD.",
+Profit\Measure,"DIVIDE([Total Profit],[Total Revenue],BLANK())",Net profit margin expressed as a percentage of total revenue (Total Profit / Total Revenue).,
+Profit\Measure,SUM(FACT_Order_Line_Items[Profit]),Total gross profit summed from all order line items in the selected period (source: FACT_Order_Line_Items[Profit]).,
+Profit\Text,"
+    VAR YTD_ = CALCULATE([YTD-Profit],// change
+            ALL(Calender)
+            ) 
+    VAR maxyear = CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)
+                )
+    VAR mindateformat = FORMAT(CALCULATE(MIN(Calender[Date]),ALL(Calender),
+                    YEAR(Calender[Date]) = YEAR(maxyear)),
+                    ""mmm'yy""
+                )
+     VAR maxyearformat = FORMAT(CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)), ""mmm'yy""
+                )
+
+    VAR num_format = ROUND(
+                        DIVIDE(YTD_,1000000,BLANK()),2)
+
+    VAR Result = ""YTD (""  & mindateformat & ""-"" & maxyearformat & "") - "" & num_format & ""M""
+        
+        RETURN 
+                Result
+",,
+Ranking_product_Analysis,"
+    VAR Selected_ = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+    VAR Selected_Product = SELECTEDVALUE(Parameter_product[Parameter_product Order])
+        VAR MOM_Revenue = SWITCH(TRUE()
+            , [MOM % Net Sales] = BLANK(),""""
+            , [MOM % Net Sales] < 0 ,"" | ▼ "" & FORMAT([MOM % Net Sales],""0.00"" & ""%"")
+            , [MOM % Net Sales] >= 0 ,"" | ▲ "" & FORMAT([MOM % Net Sales],""0.00"" & ""%"")
+        )
+        VAR MOM_Cogs= SWITCH(TRUE()
+            , [MOM % Cogs] = BLANK(),""""
+            , [MOM % Cogs] < 0 ,"" | ▼ "" & FORMAT([MOM % Cogs],""0.00"" & ""%"")
+            , [MOM % Cogs] >= 0 ,"" | ▲ "" & FORMAT([MOM % Cogs],""0.00"" & ""%"")
+        )
+        VAR MOM_Profit = SWITCH(TRUE()
+            , [MOM % Net Profit] = BLANK(),""""
+            , [MOM % Net Profit] < 0 ,"" | ▼ "" & FORMAT([MOM % Net Profit],""0.00"" & ""%"")
+            , [MOM % Net Profit] >= 0 ,"" | ▲ "" & FORMAT([MOM % Net Profit],""0.00"" & ""%"")
+        )
+        VAR MOM_Unit = SWITCH(TRUE()
+            , [MOM % Total Units] = BLANK(),""""
+            , [MOM % Total Units] < 0 ,"" | ▼ "" & FORMAT([MOM % Total Units],""0.00"" & ""%"")
+            , [MOM % Total Units] >= 0 ,"" | ▲ "" & FORMAT([MOM % Total Units],""0.00"" & ""%"")
+        )
+
+    VAR result = SWITCH(
+                        TRUE()
+                        ,Selected_ = 0 && Selected_Product = 0, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Product = 0, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Product = 0, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Product = 0, FORMAT([Total Units],""#,0"") & MOM_Unit
+
+                        ,Selected_ = 0 && Selected_Product = 1, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Product = 1, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Product = 1, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Product = 1, FORMAT([Total Units],""#,0"") & MOM_Unit
+)
+RETURN
+result",,
+Ranking_product_Analysis,"
+
+VAR insite = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+VAR Geo_INSITE = SELECTEDVALUE('Parameter_Geo '[Parameter_Geo  Order])
+
+VAR result = SWITCH(TRUE(), insite = 0 && Geo_INSITE = 0, ""Total Revenue by Continent"",
+                            insite = 0 && Geo_INSITE = 1, ""Total Revenue by Country"",
+                            insite = 0 && Geo_INSITE = 2, ""Total Revenue by State"",
+                            insite = 0 && Geo_INSITE = 3, ""Total Revenue by City"",
+
+                            insite = 1 && Geo_INSITE = 0, ""Total COGS by Continent"",
+                            insite = 1 && Geo_INSITE = 1, ""Total COGS by Country"",
+                            insite = 1 && Geo_INSITE = 2, ""Total COGS by State"",
+                            insite = 1 && Geo_INSITE = 3, ""Total COGS by City"",
+
+                            insite = 2 && Geo_INSITE = 0, ""Total Profit by Continent"",
+                            insite = 2 && Geo_INSITE = 1, ""Total Profit by Country"",
+                            insite = 2 && Geo_INSITE = 2, ""Total Profit by State"",
+                            insite = 2 && Geo_INSITE = 3, ""Total Profit by City"",
+                            
+                            insite = 3 && Geo_INSITE = 0, ""Total Unit by Continent"",
+                            insite = 3 && Geo_INSITE = 1, ""Total Unit by Country"",
+                            insite = 3 && Geo_INSITE = 2, ""Total Unit by State"",
+                            insite = 3 && Geo_INSITE = 3, ""Total Unit by City""
+                            )
+
+
+RETURN result
+",,
+Ranking_product_Analysis,"
+
+VAR insite = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+VAR PRODUCT_INSITE = SELECTEDVALUE(Parameter_product[Parameter_product Order])
+
+VAR result = IF(insite = 0 && PRODUCT_INSITE = 0, ""Total Revenue by Catagory"",
+                    IF(insite = 0 && PRODUCT_INSITE = 1, ""Total Revenue by Subcatagory"",
+                        IF(insite = 1 && PRODUCT_INSITE = 0, ""Total COGS by Catagory"",
+                           IF(insite = 1 && PRODUCT_INSITE = 1, ""Total COGS by Subcatagory"",
+                            IF(insite = 2 && PRODUCT_INSITE = 0, ""Total Profit by Catagory"",
+                           IF(insite = 2 && PRODUCT_INSITE = 1, ""Total Profit by Subcatagory"",
+                           IF(insite = 3 && PRODUCT_INSITE = 0, ""Total Unit by Catagory"",
+                           IF(insite = 3 && PRODUCT_INSITE = 1, ""Total Unit by Subcatagory""))))))))
+
+
+RETURN result
+
+",,
+Ranking_product_Analysis,"
+
+VAR topbuttom = SELECTEDVALUE(Table_TopButtom_Sclicer[Value]) 
+
+VAR field = SELECTEDVALUE('Parameter_Geo '[Parameter_Geo  Order])
+
+VAR insite = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+//Ranking by conmtinent and KPi
+VAR top_CR = RANKX(ALL(Geo[CustomerContinent]),[Total Revenue],,DESC) // rank by revenue   
+VAR Buttom_CR = RANKX(ALL(Geo[CustomerContinent]),[Total Revenue],,ASC) // rank by revenue
+VAR top_CC = RANKX(ALL(Geo[CustomerContinent]),[Total COGS],,DESC) // rank by cogs  
+VAR Buttom_CC = RANKX(ALL(Geo[CustomerContinent]),[Total COGS],,ASC) // rank by cogs 
+VAR top_CP = RANKX(ALL(Geo[CustomerContinent]),[Total Profit],,DESC) // rank by Profit   
+VAR Buttom_CP = RANKX(ALL(Geo[CustomerContinent]),[Total Profit],,ASC) // rank by Profit
+VAR top_CU = RANKX(ALL(Geo[CustomerContinent]),[Total Units],,DESC) // rank by Unit   
+VAR Buttom_CU = RANKX(ALL(Geo[CustomerContinent]),[Total Units],,ASC) // rank by Unit
+
+//Ranking by State and KPi
+VAR top_SR = RANKX(ALL(Geo[CustomerState]),[Total Revenue],,DESC,Dense) // rank by revenue   
+VAR Buttom_SR = RANKX(ALL(Geo[CustomerState]),[Total Revenue],,ASC,Dense) // rank by revenue
+VAR top_SC = RANKX(ALL(Geo[CustomerState]),[Total COGS],,DESC,Dense) // rank by cogs  
+VAR Buttom_SC = RANKX(ALL(Geo[CustomerState]),[Total COGS],,ASC,Dense) // rank by cogs 
+VAR top_SP = RANKX(ALL(Geo[CustomerState]),[Total Profit],,DESC,Dense) // rank by Profit   
+VAR Buttom_SP = RANKX(ALL(Geo[CustomerState]),[Total Profit],,ASC,Dense) // rank by Profit
+VAR top_SU = RANKX(ALL(Geo[CustomerState]),[Total Units],,DESC,Dense) // rank by Unit   
+VAR Buttom_SU = RANKX(ALL(Geo[CustomerState]),[Total Units],,ASC,Dense) // rank by Unit
+
+//Ranking by Country and KPi
+VAR top_CoR = RANKX(ALL(Geo[CustomerCountry]),[Total Revenue],,DESC) // rank by revenue   
+VAR Buttom_CoR = RANKX(ALL(Geo[CustomerCountry]),[Total Revenue],,ASC) // rank by revenue
+VAR top_CoC = RANKX(ALL(Geo[CustomerCountry]),[Total COGS],,DESC) // rank by cogs  
+VAR Buttom_CoC = RANKX(ALL(Geo[CustomerCountry]),[Total COGS],,ASC) // rank by cogs 
+VAR top_CoP = RANKX(ALL(Geo[CustomerCountry]),[Total Profit],,DESC) // rank by Profit   
+VAR Buttom_CoP = RANKX(ALL(Geo[CustomerCountry]),[Total Profit],,ASC) // rank by Profit
+VAR top_CoU = RANKX(ALL(Geo[CustomerCountry]),[Total Units],,DESC) // rank by Unit   
+VAR Buttom_CoU = RANKX(ALL(Geo[CustomerCountry]),[Total Units],,ASC) // rank by Unit
+
+//Ranking by City and KPi
+VAR top_CiR = RANKX(ALL(Geo[CustomerCity]),[Total Revenue],,DESC,Dense) // rank by revenue   
+VAR Buttom_CiR = RANKX(ALL(Geo[CustomerCity]),[Total Revenue],,ASC,Dense) // rank by revenue
+VAR top_CiC = RANKX(ALL(Geo[CustomerCity]),[Total COGS],,DESC,Dense) // rank by cogs  
+VAR Buttom_CiC = RANKX(ALL(Geo[CustomerCity]),[Total COGS],,ASC,Dense) // rank by cogs 
+VAR top_CiP = RANKX(ALL(Geo[CustomerCity]),[Total Profit],,DESC,Dense) // rank by Profit   
+VAR Buttom_CiP = RANKX(ALL(Geo[CustomerCity]),[Total Profit],,ASC,Dense)// rank by Profit
+VAR top_CiU = RANKX(ALL(Geo[CustomerCity]),[Total Units],,DESC,Dense) // rank by Unit   
+VAR Buttom_CiU = RANKX(ALL(Geo[CustomerCity]),[Total Units],,ASC,Dense) // rank by Unit
+
+
+VAR ranking = SWITCH(TRUE() ,field = 2  && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_SU
+                            ,field = 2  && topbuttom = ""Top"" && insite = 0
+                            ,top_SR
+                            ,field = 2  && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_SR
+                            ,field = 2  && topbuttom = ""Top"" && insite = 1
+                            ,top_SC
+                            ,field = 2  && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_SC
+                            ,field = 2  && topbuttom = ""Top"" && insite = 2
+                            ,top_SP
+                            ,field = 2  && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_SP
+                            ,field = 2  && topbuttom = ""Top"" && insite = 3
+                            ,top_SU
+                            
+
+                            
+                            ,field = 3  && topbuttom = ""Top"" && insite = 0
+                            ,top_CiR
+                            ,field = 3  && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_CiR
+                            ,field = 3  && topbuttom = ""Top"" && insite = 1
+                            ,top_CiC
+                            ,field = 3  && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_CiC
+                            ,field = 3  && topbuttom = ""Top"" && insite = 2
+                            ,top_CiP
+                            ,field = 3  && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_CiP
+                            ,field = 3  && topbuttom = ""Top"" && insite = 3
+                            ,top_CiU
+                            ,field = 3  && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_CiU
+                            
+                            
+                            ,field = 0  && topbuttom = ""Top"" && insite = 2
+                            ,top_CP
+                            ,field = 0  && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_CP
+                            ,field = 0  && topbuttom = ""Top"" && insite = 3
+                            ,top_CU
+                            ,field = 0  && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_CU
+                            ,field = 0  && topbuttom = ""Top"" && insite = 0
+                            ,top_CR
+                            ,field = 0  && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_CR
+                            ,field = 0  && topbuttom = ""Top"" && insite = 1
+                            ,top_CC
+                            ,field = 0  && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_CC
+                           
+                            
+                            
+                            ,field = 1  && topbuttom = ""Top"" && insite = 0
+                            ,top_CoR
+                            ,field = 1  && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_CoR
+                            ,field = 1  && topbuttom = ""Top"" && insite = 1
+                            ,top_CoC
+                            ,field = 1  && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_CoC                            
+                            ,field = 1  && topbuttom = ""Top"" && insite = 2
+                            ,top_CoP
+                            ,field = 1  && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_CoP
+                            ,field = 1  && topbuttom = ""Top"" && insite = 3
+                            ,top_CoU
+                            ,field = 1  && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_CoU    
+                    )
+
+
+VAR Result = SWITCH(TRUE()
+                    ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 0
+                    ,[Total Revenue]
+                    ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 1 
+                    ,[Total COGS]
+                     ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 2 
+                    ,[Total Profit]
+                     ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 3 
+                    ,[Total Units]
+        )
+RETURN
+Result",,
+Ranking_product_Analysis,"
+
+VAR topbuttom = SELECTEDVALUE(Table_TopButtom_Sclicer[Value]) 
+
+VAR field = SELECTEDVALUE(Parameter_product[Parameter_product Fields])
+
+VAR insite = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+
+VAR top_pcR = RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Revenue],,DESC) // rank by revenue   
+VAR Buttom_pcR = RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Revenue],,ASC) // rank by revenue   
+
+VAR top_pscR= RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Revenue],,DESC,Dense) // rank by revenue   
+VAR Buttom_pscR = RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Revenue],,ASC,Dense) // rank by revenue   
+
+VAR top_pcC = RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total COGS],,DESC)    // rank by Cogs   
+VAR Buttom_pcC= RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total COGS],,ASC)// rank by cogs
+
+VAR top_pscC = RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total COGS],,DESC,Dense) // rank by cogs   
+VAR Buttom_pscC = RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total COGS],,ASC,Dense) // rank by cogs
+
+VAR top_pcP = RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Profit],,DESC)    // rank by Profit
+VAR Buttom_pcP= RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Profit],,ASC) // rank by Profit
+
+VAR top_pscP= RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Profit],,DESC,Dense)   // rank by Profit
+VAR Buttom_pscP = RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Profit],,ASC,Dense)   // rank by Profit
+
+VAR top_pcU = RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Units],,DESC)    // rank by Unit
+VAR Buttom_pcU= RANKX(ALL(DIM_Product_Category[ProductCategory]),[Total Units],,ASC) // rank by Unit
+
+VAR top_pscU= RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Units],,DESC,Dense)   // rank by Unit
+VAR Buttom_pscU = RANKX(ALL(DIM_product_subcatagory[ProductSubcategory]),[Total Units],,ASC,Dense)   // rank by Unit
+
+VAR ranking = SWITCH(TRUE() ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Top"" && insite = 0
+                            ,top_pscR
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_pscR
+                            ,CONTAINSSTRING(field,""Category"") && topbuttom = ""Top"" && insite = 0
+                            , top_pcR
+                            ,CONTAINSSTRING(field,""Category"") && topbuttom = ""Buttom"" && insite = 0
+                            ,Buttom_pcR
+
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Top"" && insite = 1
+                            ,top_pscC
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_pscC,
+                            CONTAINSSTRING(field,""Category"") && topbuttom = ""Top"" && insite = 1
+                            , top_pcC
+                            ,CONTAINSSTRING(field,""Category"") && topbuttom = ""Buttom"" && insite = 1
+                            ,Buttom_pcC
+
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Top"" && insite = 2
+                            ,top_pscP
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_pscP,
+                            CONTAINSSTRING(field,""Category"") && topbuttom = ""Top"" && insite = 2
+                            , top_pcP
+                            ,CONTAINSSTRING(field,""Category"") && topbuttom = ""Buttom"" && insite = 2
+                            ,Buttom_pcP
+
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Top"" && insite = 3
+                            ,top_pscU
+                            ,CONTAINSSTRING(field,""Subcategory"") && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_pscU,
+                            CONTAINSSTRING(field,""Category"") && topbuttom = ""Top"" && insite = 3
+                            , top_pcU
+                            ,CONTAINSSTRING(field,""Category"") && topbuttom = ""Buttom"" && insite = 3
+                            ,Buttom_pcU
+                    )
+
+
+VAR Result = SWITCH(TRUE()
+                    ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 0
+                    ,CURRENCY([Total Revenue])
+                    ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 1 
+                    ,CURRENCY([Total COGS])
+                     ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 2 
+                    ,CURRENCY([Total Profit])
+                     ,ranking <= Number_TopButtom[Number_TopButtom Value] && insite = 3 
+                    ,[Total Units])
+RETURN
+Result",,
+Ranking_product_Analysis,"
+    VAR Selected_ = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+    VAR Selected_Geo = SELECTEDVALUE('Parameter_Geo '[Parameter_Geo  Order])
+        VAR MOM_Revenue = SWITCH(TRUE()
+            , [MOM % Net Sales] = BLANK(),""""
+            , [MOM % Net Sales] < 0 ,"" | ▼ "" & FORMAT([MOM % Net Sales],""0.00"" & ""%"")
+            , [MOM % Net Sales] >= 0 ,"" | ▲ "" & FORMAT([MOM % Net Sales],""0.00"" & ""%"")
+        )
+        VAR MOM_Cogs= SWITCH(TRUE()
+            , [MOM % Cogs] = BLANK(),""""
+            , [MOM % Cogs] < 0 ,"" | ▼ "" & FORMAT([MOM % Cogs],""0.00"" & ""%"")
+            , [MOM % Cogs] >= 0 ,"" | ▲ "" & FORMAT([MOM % Cogs],""0.00"" & ""%"")
+        )
+        VAR MOM_Profit = SWITCH(TRUE()
+            , [MOM % Net Profit] = BLANK(),""""
+            , [MOM % Net Profit] < 0 ,"" | ▼ "" & FORMAT([MOM % Net Profit],""0.00"" & ""%"")
+            , [MOM % Net Profit] >= 0 ,"" | ▲ "" & FORMAT([MOM % Net Profit],""0.00"" & ""%"")
+        )
+        VAR MOM_Unit = SWITCH(TRUE()
+            , [MOM % Total Units] = BLANK(),""""
+            , [MOM % Total Units] < 0 ,"" | ▼ "" & FORMAT([MOM % Total Units],""0.00"" & ""%"")
+            , [MOM % Total Units] >= 0 ,"" | ▲ "" & FORMAT([MOM % Total Units],""0.00"" & ""%"")
+        )
+
+    VAR result = SWITCH(
+                        TRUE()
+                        ,Selected_ = 0 && Selected_Geo = 0, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Geo = 0, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Geo = 0, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Geo = 0, FORMAT([Total Units],""#,0"") & MOM_Unit
+
+                        ,Selected_ = 0 && Selected_Geo = 1, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Geo = 1, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Geo = 1, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Geo = 1, FORMAT([Total Units],""#,0"") & MOM_Unit
+
+                        ,Selected_ = 0 && Selected_Geo = 2, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Geo = 2, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Geo = 2, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Geo = 2, FORMAT([Total Units],""#,0"") & MOM_Unit
+
+                        ,Selected_ = 0 && Selected_Geo = 3, FORMAT([Total Revenue],""₹ #,0.00"") & MOM_Revenue
+                        ,Selected_ = 1 && Selected_Geo = 3, FORMAT([Total COGS],""₹ #,0.00"") & MOM_Cogs
+                        ,Selected_ = 2 && Selected_Geo = 3, FORMAT([Total Profit],""₹ #,0.00"") & MOM_Profit
+                        ,Selected_ = 3 && Selected_Geo = 3, FORMAT([Total Units],""#,0"") & MOM_Unit
+)
+RETURN
+result",,"""0.00E+000"""
+Revenue\Color,"
+    VAR per = [MOM % Net Sales]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Revenue\Color,"
+    VAR per = [YOY % Revenue]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Revenue\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Revenue], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonthSales =  
+        CALCULATE( 
+            [Total Revenue], 
+            ALLSELECTED(Calender[Reporting_Period]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonthSales > 0 ,
+            DIVIDE((curretMonthSales - PreviousMonthSales), PreviousMonthSales , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+    Result
+","Month-over-month percentage change in net sales revenue, comparing the latest full month to the immediately preceding month.",
+Revenue\Measure,"
+    VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+
+    VAR Currentyearcogs = CALCULATE([Total Revenue],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Total Revenue],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK())
+    
+    RETURN Result","Year-over-year percentage change in revenue, comparing the current calendar year total to the same period in the prior year.",
+Revenue\Measure,"
+
+   VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Revenue], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+        RETURN
+        PreviousMonthSales","Previous month's revenue calculated via a custom DATESBETWEEN range, used as the reference value for MOM % Net Sales.",
+Revenue\Measure,"
+
+VAR startdate = LASTDATE(DIM_Orders[OrderDate]) //change on context
+
+VAR period = DATESINPERIOD(Calender[Date],startdate,-'MovingAVG-DAYS'[MovingAVG-DAYS Value],DAY)
+
+VAR cal = CALCULATE(AVERAGEX(VALUES(Calender[Date]),[Total Revenue]),//change on context
+                        period
+                    )  
+
+VAR RESULT = IF([Total Revenue] //change on context 
+                    = BLANK() , 0, cal) 
+
+RETURN RESULT","Rolling average daily revenue over a user-selected window of days, driven by the MovingAVG-DAYS parameter slicer.",
+Revenue\Measure,"CALCULATE([Total Revenue],PREVIOUSMONTH(Calender[Date]))","Total revenue for the previous calendar month using PREVIOUSMONTH, used as a baseline for period-over-period comparisons.",
+Revenue\Measure,"CALCULATE(TOTALMTD([Total Revenue],Calender[Date]))","Month-to-date cumulative revenue from the first day of the current month to the latest available date, using TOTALMTD.",
+Revenue\Measure,"CALCULATE(TOTALYTD([Total Revenue],Calender[Date]))","Year-to-date cumulative revenue from the first day of the calendar year to the latest available date, using TOTALYTD.",
+Revenue\Measure,"SUM(FACT_Order_Line_Items[Revenue])
+",Total net sales revenue summed from all order line items in the selected period (source: FACT_Order_Line_Items[Revenue]).,
+Revenue\Text,"
+    VAR YTD_ = CALCULATE([YTD-Revenue],// change
+            ALL(Calender)
+            ) 
+    VAR maxyear = CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)
+                )
+    VAR mindateformat = FORMAT(CALCULATE(MIN(Calender[Date]),ALL(Calender),
+                    YEAR(Calender[Date]) = YEAR(maxyear)),
+                    ""mmm'yy""
+                )
+     VAR maxyearformat = FORMAT(CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)), ""mmm'yy""
+                )
+
+    VAR num_format = ROUND(
+                        DIVIDE(YTD_,1000000,BLANK()),2)
+
+    VAR Result = ""YTD (""  & mindateformat & ""-"" & maxyearformat & "") - "" & num_format & ""M""
+        
+        RETURN 
+                Result
+",,
+Store,"
+VAR Selected = SELECTEDVALUE(ParameterMAIN[Parameter Order])
+ 
+VAR Revenue_sqft = DIVIDE([Total Revenue],[Total Store sqft],BLANK())
+VAR Cogs_sqft = DIVIDE([Total COGS],[Total Store sqft],BLANK())
+VAR Profit_sqft = DIVIDE([Total Profit],[Total Store sqft],BLANK())
+VAR Unit_sqft = DIVIDE([Total Units],[Total Store sqft],BLANK())
+
+VAR Result = SWITCH(TRUE(),Selected = 0 , Revenue_sqft
+                            , Selected = 1 , Cogs_sqft
+                            , Selected =2 , Profit_sqft
+                            , Selected = 3 , Unit_sqft)
+
+RETURN
+Result",,
+Store,CALCULATE(DISTINCTCOUNT(Store_Product_Relation[ProductID])),,
+Store,SUM(DIM_Stores[StoreSqMeters]) ,,
+Unit\color,"
+    VAR per = [MOM % Total Units]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Unit\color,"
+    VAR per = [YOY % Unit]
+    VAR Result = IF(per> 0 , ""green"", ""red"")
+     RETURN
+     Result",,
+Unit\Measure,"
+    VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Units], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+    VAR curretMonthSales =  
+        CALCULATE( 
+            [Total Units], 
+            ALLSELECTED(Calender[Reporting_Period]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-1) + 1, 
+                EOMONTH(LATESTPERIOD,0)
+            )
+        )
+
+    VAR Result = 
+        IF( PreviousMonthSales > 0 ,
+            DIVIDE((curretMonthSales - PreviousMonthSales), PreviousMonthSales , BLANK()), BLANK())
+        
+    
+    
+    RETURN
+    Result
+","Month-over-month percentage change in units sold, comparing the latest full month to the immediately preceding month.",
+Unit\Measure,"
+    VAR LATESTPERIOD = year(LASTDATE(Calender[Start of month]))
+
+    VAR Currentyearcogs = CALCULATE([Total Units],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD)
+    VAR Previousyearcogs = CALCULATE([Total Units],ALLSELECTED(Calender[Year]),YEAR(Calender[Date]) = LATESTPERIOD-1)
+    VAR Result = DIVIDE(Currentyearcogs-Previousyearcogs,Previousyearcogs,BLANK())
+    
+    RETURN Result","Year-over-year percentage change in units sold, comparing the current calendar year total to the same period in the prior year.",
+Unit\Measure,"
+
+   VAR LATESTPERIOD = LASTDATE(Calender[Start of month])
+
+
+    VAR CURRENTMONTHSTART = CALCULATE(MIN(Calender[Date]), Calender[Start of month] = LATESTPERIOD)
+
+
+    VAR PreviousMonthSales = 
+        CALCULATE( 
+            [Total Units], 
+            ALLSELECTED(Calender[Start of month]),
+            DATESBETWEEN(Calender[Date], 
+                EOMONTH(CURRENTMONTHSTART,-2) + 1, 
+                EOMONTH(CURRENTMONTHSTART,-1)
+            )
+        )
+
+        RETURN
+        PreviousMonthSales","Previous month's units sold calculated via a custom DATESBETWEEN range, used as the reference value for MOM % Total Units.",
+Unit\Measure,"
+
+VAR startdate = LASTDATE(DIM_Orders[OrderDate]) //change on context
+
+VAR period = DATESINPERIOD(Calender[Date],startdate,-'MovingAVG-DAYS'[MovingAVG-DAYS Value],DAY)
+
+VAR cal = CALCULATE(AVERAGEX(VALUES(Calender[Date]),[Total Units]),//change on context
+                        period
+                    )  
+
+VAR RESULT = IF([Total Units] //change on context 
+                    = BLANK() , 0, cal) 
+
+RETURN RESULT","Rolling average daily units sold over a user-selected window of days, driven by the MovingAVG-DAYS parameter slicer.",
+Unit\Measure,"CALCULATE(TOTALMTD([Total Units],Calender[Date]))","Month-to-date cumulative units sold from the first day of the current month to the latest available date, using TOTALMTD.",
+Unit\Measure,"CALCULATE(TOTALYTD([Total Units],Calender[Date]))","Year-to-date cumulative units sold from the first day of the calendar year to the latest available date, using TOTALYTD.",
+Unit\Measure,SUM(FACT_Order_Line_Items[Quantity]),Total quantity of product units sold across all order line items in the selected period (source: FACT_Order_Line_Items[Quantity]).,
+Unit\Text,"
+    VAR YTD_ = CALCULATE([YTD-Unit],// change
+            ALL(Calender)
+            ) 
+    VAR maxyear = CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)
+                )
+    VAR mindateformat = FORMAT(CALCULATE(MIN(Calender[Date]),ALL(Calender),
+                    YEAR(Calender[Date]) = YEAR(maxyear)),
+                    ""mmm'yy""
+                )
+     VAR maxyearformat = FORMAT(CALCULATE(MAX(Calender[Date]),
+                ALL(Calender)), ""mmm'yy""
+                )
+
+    VAR num_format = ROUND(
+                        DIVIDE(YTD_,1000,BLANK()),2)
+
+    VAR Result = ""YTD (""  & mindateformat & ""-"" & maxyearformat & "") - "" & num_format & ""K""
+        
+        RETURN 
+                Result
+",,

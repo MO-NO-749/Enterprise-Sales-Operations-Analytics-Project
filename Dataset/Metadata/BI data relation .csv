@@ -1,0 +1,19 @@
+﻿CrossFilteringBehavior,FromCardinality,FromTable,FromColumn,IsActive,Relationship,ToColumn,ToTable
+OneDirection,Many,Customer Order Distribution,First_Purchease_Date,false,'Customer Order Distribution'[First_Purchease_Date] *[<-]1 'Calender'[Date],Date,Calender
+OneDirection,Many,DIM_Orders,DeliveryDate,false,'DIM_Orders'[DeliveryDate] *[<-]1 'Calender'[Date],Date,Calender
+OneDirection,Many,DIM_Orders,OrderDate,true,'DIM_Orders'[OrderDate] *[<-]1 'Calender'[Date],Date,Calender
+BothDirections,Many,DIM_Orders,CustomerID,true,'DIM_Orders'[CustomerID] *[<->]1 'Customer Order Distribution'[CustomerID],CustomerID,Customer Order Distribution
+BothDirections,One,DIM_Customers,CustomerID,false,'DIM_Customers'[CustomerID] 1[<->]1 'Customer Order Distribution'[CustomerID],CustomerID,Customer Order Distribution
+BothDirections,One,Customer Order Distribution,CustomerID,false,'Customer Order Distribution'[CustomerID] 1[<->]1 'DIM_Customers'[CustomerID],CustomerID,DIM_Customers
+OneDirection,Many,DIM_Orders,CustomerID,true,'DIM_Orders'[CustomerID] *[<-]1 'DIM_Customers'[CustomerID],CustomerID,DIM_Customers
+OneDirection,Many,FACT_Order_Line_Items,OrderNumber,true,'FACT_Order_Line_Items'[OrderNumber] *[<-]1 'DIM_Orders'[OrderNumber],OrderNumber,DIM_Orders
+OneDirection,Many,DIM_product_subcatagory,ProductCategoryID,true,'DIM_product_subcatagory'[ProductCategoryID] *[<-]1 'DIM_Product_Category'[ProductCategoryID],ProductCategoryID,DIM_Product_Category
+OneDirection,Many,DIM_Products,ProductSubcategoryID,true,'DIM_Products'[ProductSubcategoryID] *[<-]1 'DIM_product_subcatagory'[ProductSubcategoryID],ProductSubcategoryID,DIM_product_subcatagory
+OneDirection,Many,FACT_Order_Line_Items,ProductID,true,'FACT_Order_Line_Items'[ProductID] *[<-]1 'DIM_Products'[ProductID],ProductID,DIM_Products
+OneDirection,Many,Store_Product_Relation,ProductID,false,'Store_Product_Relation'[ProductID] *[<-]1 'DIM_Products'[ProductID],ProductID,DIM_Products
+OneDirection,Many,DIM_Orders,StoreID,true,'DIM_Orders'[StoreID] *[<-]1 'DIM_Stores'[StoreID],StoreID,DIM_Stores
+OneDirection,Many,Geo,CustomerState,false,'Geo'[CustomerState] *[<-]1 'DIM_Stores'[StoreState],StoreState,DIM_Stores
+OneDirection,Many,Store_Product_Relation,StoreID,true,'Store_Product_Relation'[StoreID] *[<-]1 'DIM_Stores'[StoreID],StoreID,DIM_Stores
+OneDirection,Many,DIM_Customers,CustomerCity,true,'DIM_Customers'[CustomerCity] *[<-]1 'Geo'[CustomerCity],CustomerCity,Geo
+OneDirection,Many,DIM_Customers,CustomerDOB,true,'DIM_Customers'[CustomerDOB] *[<-]1 'LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a'[Date],Date,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a
+OneDirection,Many,DIM_Stores,StoreOpenDate,true,'DIM_Stores'[StoreOpenDate] *[<-]1 'LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1'[Date],Date,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1

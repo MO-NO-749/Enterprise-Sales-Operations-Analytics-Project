@@ -1,0 +1,57 @@
+﻿ID,CalculationGroupPrecedence,Name,DataCategory,Expression,StorageMode
+21,,DIM_Product_Category,Regular,,Import
+24,,DIM_product_subcatagory,Regular,,Import
+27,,DIM_Products,Regular,,Import
+30,,Store_Product_Relation,Regular,,Import
+33,,DIM_Stores,Regular,,Import
+3108,,DIM_Orders,Regular,,Import
+3117,,FACT_Order_Line_Items,Regular,,Import
+11452,,DIM_Customers,Regular,,Import
+12112,,Geo,Regular,,Import
+32684,,Table_TopButtom_Sclicer,Regular,,Import
+157727,,Customer Order Distribution,Regular,"
+VAR Main = SUMMARIZE(
+    DIM_Orders,
+    DIM_Orders[CustomerID],
+    ""OrdersCount"", COUNT(DIM_Orders[OrderNumber]),
+    ""First_Purchease_Date"", [First Purchase Date])
+Return Main",Import
+25467,,AVG_Parameter,Regular,"{
+    (""AVG_Revenue"", NAMEOF(' Measures'[AVG_Revenue]), 0),
+    (""AVG_COGS"", NAMEOF(' Measures'[AVG_COGS]), 1),
+    (""AVG_Profit"", NAMEOF(' Measures'[AVG_Profit]), 2),
+    (""AVG_Unit"", NAMEOF(' Measures'[AVG_Unit]), 3)
+}",Import
+33787,,Parameter_product,Regular,"{
+    (""Category"", NAMEOF('DIM_Product_Category'[ProductCategory]), 0),
+    (""Subcategory"", NAMEOF('DIM_product_subcatagory'[ProductSubcategory]), 1)
+}",Import
+59260,,Parameter_Geo ,Regular,"{
+    (""Continent"", NAMEOF('Geo'[CustomerContinent]), 0),
+    (""Country"", NAMEOF('Geo'[CustomerCountry]), 1),
+    (""State"", NAMEOF('Geo'[CustomerState]), 2),
+    (""City"", NAMEOF('Geo'[CustomerCity]), 3)
+}",Import
+149268,,Customer_Parameter,Regular,"{
+    (""New Customers"", NAMEOF(' Measures'[New Customers]), 0),
+    (""Returning Customers"", NAMEOF(' Measures'[Returning Customers]), 1)
+}",Import
+65367,,Parameter_product_scraterplot,Regular,"{
+    (""Product Cost"", NAMEOF('DIM_Products'[ProductCost]), 0),
+    (""Product Price"", NAMEOF('DIM_Products'[ProductPrice]), 1)
+}",Import
+15305,,ParameterMAIN,Regular,"{
+    (""Total Revenue"", NAMEOF(' Measures'[Total Revenue]), 0),
+    (""Total COGS"", NAMEOF(' Measures'[Total COGS]), 1),
+    (""Total Profit"", NAMEOF(' Measures'[Total Profit]), 2),
+    (""Total Units"", NAMEOF(' Measures'[Total Units]), 3)
+}",Import
+3027,, Measures,Regular,{BLANK()} ,Import
+15,,DateTableTemplate_0f06653c-2446-478b-8653-cefd16c37e6c,Regular,"Calendar(Date(2015,1,1), Date(2015,1,1))",Import
+11455,,LocalDateTable_03c279a8-6365-4370-bb29-a35ff92fbd9a,Regular,"Calendar(Date(Year(MIN('DIM_Customers'[CustomerDOB])), 1, 1), Date(Year(MAX('DIM_Customers'[CustomerDOB])), 12, 31))",Import
+36,,LocalDateTable_8e61a952-7be0-4834-b1df-b9b106458fc1,Regular,"Calendar(Date(Year(MIN('DIM_Stores'[StoreOpenDate])), 1, 1), Date(Year(MAX('DIM_Stores'[StoreOpenDate])), 12, 31))",Import
+259750,,Parameter_CUS_NUMBER,Regular,"GENERATESERIES(0, 5000, 1)",Import
+33519,,Number_TopButtom,Regular,"GENERATESERIES(1, 20, 1)",Import
+28215,,MovingAVG-DAYS,Regular,"GENERATESERIES(1, 365, 1)",Import
+347754,,Table,Regular,INFO.VIEW.TABLES(),Import
+4853,,Calender,Time,"CALENDAR(MIN(DIM_Orders[OrderDate]),MAX(DIM_Orders[DeliveryDate]))",Import
