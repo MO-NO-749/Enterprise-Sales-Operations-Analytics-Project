@@ -48,8 +48,8 @@ Develop Power BI Dashboard Pages for analytics to deliver detailed insights into
 - **Customer Behavior**
 - **Product Performance**
 - **Sales Trends**
---** Purchase Behavior**
---** Order & Delivery Analysis**
+-** Purchase Behavior**
+-** Order & Delivery Analysis**
 
 
 
