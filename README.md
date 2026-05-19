@@ -55,7 +55,7 @@ Develop Power BI Dashboard Pages for analytics to deliver detailed insights into
 
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
 
-For more details, refer to [Document](DOC/Project Overview .docx)
+For more details, refer to [Documentation](DOC/)
 
 ## 🛡️ License
 
