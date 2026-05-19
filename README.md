@@ -11,7 +11,7 @@ The data architecture for this project follows Medallion Architecture **Bronze**
 
 1. **Bronze Layer**: Stores raw data as-is from the source systems. Data is ingested from CSV Files into SQL Server Database.
 2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
-3. **Gold Layer**: Houses business-ready data modeled into a snowflake schema required for reporting and analytics.
+3. **Gold Layer**: Houses business-ready data modeled into a snowflake schema for reporting and analytics and proformance.
 
 ---
 ## 📖 Project Overview
@@ -30,12 +30,12 @@ This project involves:
 ### Building the Dashboard
 
 #### Objective
-Develop a modern data warehouse using SQL Server to consolidate Transaction data, enabling analytical reporting and informed decision-making though Power Bi Visuals.
+Develop a modern data warehouse using SQL Server to NOrmalize Transaction data, enabling analytical reporting and informed decision-making though Power Bi Visuals.
 
 #### Specifications
 - **Data Sources**: Import data from Reported file provided as CSV files.
 - **Data Quality**: Cleanse and resolve data quality issues prior to analysis.
-- **Integration**: Combine both sources into a single, user-friendly data model designed for analytical queries and scalability.
+- **Normalization**: separeted into multiple sources{Tables} ,Snowflack data model designed for analytical queries and scalability.
 - **Scope**: Focus on the latest dataset only; historization of data is not required.
 - **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
 
@@ -44,8 +44,8 @@ Develop a modern data warehouse using SQL Server to consolidate Transaction data
 ### BI: Analytics & Reporting (Data Analysis)
 
 #### Objective
-Develop Power BI Dashboard Pages for analytics to deliver detailed insights into:
-- **Customer Behavior**
+Develop Power BI Dashboard for analytics to deliver detailed insights into:
+- **Customer Behavior** 
 - **Product Performance**
 - **Sales Trends**
 - **Purchase Behavior**
