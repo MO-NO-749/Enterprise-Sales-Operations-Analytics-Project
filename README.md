@@ -17,7 +17,7 @@ The data architecture for this project follows Medallion Architecture **Bronze**
 This project involves:
 
 1. **Data Architecture**: Designing a Modern Data Warehouse Using Medallion Architecture **Bronze**, **Silver**, and **Gold** layers.
-2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the warehouse then to Power BI of Visualization.
+2. **ETL Pipelines**: Extracting, transforming, and loading data from source systems into the Power BI of Visualization.
 3. **Data Modeling**: Developing fact and dimension tables optimized for analytical queries.
 4. **Analytics & Reporting**: Creating *POWER BI* reports and dashboards for actionable insights.
 
@@ -48,7 +48,6 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 - **Sales Trends**
 - **Purchase Behavior**
 - **Order & Delivery Analysis**
-
 
 
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
