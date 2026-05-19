@@ -47,7 +47,7 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 - **Product Performance**
 - **Sales Trends**
 - **Purchase Behavior**
-- **Order & Delivery Analysis**
+- **Delivery Performance**
 
 
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
