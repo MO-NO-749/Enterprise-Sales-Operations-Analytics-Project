@@ -14,7 +14,6 @@ Default,AVG_Parameter,AVG_Parameter Order,Regular,Integer,CalculatedTableColumn,
 Default,Customer_Parameter,Customer_Parameter Order,Regular,Integer,CalculatedTableColumn,,0,,Customer_Parameter Order,Sum
 Default,Customer Order Distribution,CustomerID,Regular,Integer,CalculatedTableColumn,,0,,CustomerID,None
 Default,DIM_Orders,CustomerID,Regular,Integer,Data,,0,,CustomerID,None
-Default,Table,ID,Regular,Integer,CalculatedTableColumn,,0,,ID,Count
 Default,FACT_Order_Line_Items,LineItem,Regular,Integer,Data,,0,,LineItem,Sum
 Default,MovingAVG-DAYS,MovingAVG-DAYS,Regular,Integer,CalculatedTableColumn,,0,,MovingAVG-DAYS,None
 Default,Number_TopButtom,Number_TopButtom,Regular,Integer,CalculatedTableColumn,,0,,Number_TopButtom,None
@@ -42,7 +41,6 @@ Default,Table,Alignment,Regular,Text,CalculatedTableColumn,,,,Alignment,None
 Default,Table,AlternateOf,Regular,Text,CalculatedTableColumn,,,,AlternateOf,None
 Default,AVG_Parameter,AVG_Parameter,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter,None
 Default,AVG_Parameter,AVG_Parameter Fields,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter Fields,None
-Default,Table,ColumnStorage,Regular,Text,CalculatedTableColumn,,,,ColumnStorage,None
 Default,Customer_Parameter,Customer_Parameter,Regular,Text,CalculatedTableColumn,,,Customer_Parameter Order,Customer_Parameter,None
 Default,Customer_Parameter,Customer_Parameter Fields,Regular,Text,CalculatedTableColumn,,,Customer_Parameter Order,Customer_Parameter Fields,None
 Default,DIM_Customers,CustomerCity,Regular,Text,Data,,,,CustomerCity,None
@@ -55,16 +53,7 @@ Default,DIM_Customers,CustomerName,Regular,Text,Data,,,,CustomerName,None
 Default,Geo,CustomerState,Regular,Text,Data,,,,CustomerState,None
 Default,Geo,CustomerStateCode,Regular,Text,Data,,,,CustomerStateCode,None
 Default,Geo,CustomerZip,Regular,Text,Data,,,,CustomerZip,None
-Default,Table,DataCategory,Regular,Text,CalculatedTableColumn,,,,DataCategory,None
-Default,Table,DataType,Regular,Text,CalculatedTableColumn,,,,DataType,None
 Default,DIM_Orders,Delivary_Status,Regular,Text,Data,,,,Delivary_Status,None
-Default,Table,Description,Regular,Text,CalculatedTableColumn,,,,Description,None
-Default,Table,DisplayFolder,Regular,Text,CalculatedTableColumn,,,,DisplayFolder,None
-Default,Table,Expression,Regular,Text,CalculatedTableColumn,,,,Expression,None
-Default,Table,FormatString,Regular,Text,CalculatedTableColumn,,,,FormatString,None
-Default,Table,GroupingBehavior,Regular,Text,CalculatedTableColumn,,,,GroupingBehavior,None
-Default,Table,LineageTag,Regular,Text,CalculatedTableColumn,,,,LineageTag,None
-Default,Table,Name,Regular,Text,CalculatedTableColumn,,,,Name,None
 Default,ParameterMAIN,Parameter,Regular,Text,CalculatedTableColumn,,,Parameter Order,Parameter,None
 Default,ParameterMAIN,Parameter Fields,Regular,Text,CalculatedTableColumn,,,Parameter Order,Parameter Fields,None
 Default,Parameter_Geo ,Parameter_Geo ,Regular,Text,CalculatedTableColumn,,,Parameter_Geo  Order,Parameter_Geo ,None
