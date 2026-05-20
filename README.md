@@ -7,9 +7,10 @@ This project demonstrates a data warehousing and analytics solution, from buildi
 ## 🏗️ Data Architecture
 
 The data architecture for this project follows Medallion Architecture **Bronze**, **Silver**, and **Gold** layers:
-![Data Model](https://github.com/MO-NO-749/Enterprise-Sales-Operations-Analytics-Project/blob/199a9a8241be85a886a3aa850acb6f98be97e856/DOC/Data%20Layer.png)
+![Data Model](https://github.com/MO-NO-749/Enterprise-Sales-Operations-Analytics-Project/blob/a95f9c371b5fe8c736d99a354800e4665b709f09/DOC/Data%20Layer.png)
+1.. **Bronze Layer**: This layer Raw data .
 2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
-3. **Gold Layer**: Houses business-ready data modeled into a snowflake schema for reporting and analytics and proformance.
+3. **Gold Layer**: Houses business-ready semantic data modeled into a snowflake schema for reporting and analytics and proformance.
 
 ---
 ## 📖 Project Overview
@@ -28,7 +29,7 @@ This project involves:
 ### Building the Dashboard
 
 #### Objective
-Develop a modern data warehouse using SQL Server to NOrmalize Transaction data, enabling analytical reporting and informed decision-making though Power Bi Visuals.
+Develop a modern data warehouse using SQL Server to Normalize Transaction data, enabling analytical reporting and informed decision-making though Power Bi Visuals.
 
 #### Specifications
 - **Data Sources**: Import data from Reported file provided as CSV files.
@@ -56,7 +57,7 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
 
-For more details, refer to [Documentation](DOC/)
+For more details, refer to [Documentation](DOC/) & [Metadata](DOC/)
 
 ## 🛡️ License
 
