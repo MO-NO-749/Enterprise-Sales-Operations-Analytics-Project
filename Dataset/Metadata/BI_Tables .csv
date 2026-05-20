@@ -53,5 +53,4 @@ Return Main",Import
 259750,,Parameter_CUS_NUMBER,Regular,"GENERATESERIES(0, 5000, 1)",Import
 33519,,Number_TopButtom,Regular,"GENERATESERIES(1, 20, 1)",Import
 28215,,MovingAVG-DAYS,Regular,"GENERATESERIES(1, 365, 1)",Import
-347754,,Table,Regular,INFO.VIEW.TABLES(),Import
 4853,,Calender,Time,"CALENDAR(MIN(DIM_Orders[OrderDate]),MAX(DIM_Orders[DeliveryDate]))",Import
