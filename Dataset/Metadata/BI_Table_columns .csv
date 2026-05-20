@@ -37,8 +37,6 @@ Default,Store_Product_Relation,StoreID,Regular,Integer,Data,,0,,StoreID,None
 Default,DIM_Stores,StoreSqMeters,Regular,Integer,Data,,0,,StoreSqMeters,Sum
 Default,FACT_Order_Line_Items,TransactionID,Regular,Integer,Data,,0,,TransactionID,Count
 Default, Measures,Value,Regular,Integer,CalculatedTableColumn,,0,,Value,Sum
-Default,Table,Alignment,Regular,Text,CalculatedTableColumn,,,,Alignment,None
-Default,Table,AlternateOf,Regular,Text,CalculatedTableColumn,,,,AlternateOf,None
 Default,AVG_Parameter,AVG_Parameter,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter,None
 Default,AVG_Parameter,AVG_Parameter Fields,Regular,Text,CalculatedTableColumn,,,AVG_Parameter Order,AVG_Parameter Fields,None
 Default,Customer_Parameter,Customer_Parameter,Regular,Text,CalculatedTableColumn,,,Customer_Parameter Order,Customer_Parameter,None
@@ -69,20 +67,8 @@ Default,DIM_Products,ProductName,Regular,Text,Data,,,,ProductName,None
 Default,DIM_product_subcatagory,ProductSubcategory,Regular,Text,Data,,,,ProductSubcategory,None
 Default,DIM_product_subcatagory,ProductSubcategoryID,Regular,Text,Data,,,,ProductSubcategoryID,None
 Default,DIM_Products,ProductSubcategoryID,Regular,Text,Data,,,,ProductSubcategoryID,None
-Default,Table,SortByColumn,Regular,Text,CalculatedTableColumn,,,,SortByColumn,None
-Default,Table,SourceColumn,Regular,Text,CalculatedTableColumn,,,,SourceColumn,None
-Default,Table,SourceProviderType,Regular,Text,CalculatedTableColumn,,,,SourceProviderType,None
 Default,DIM_Stores,StoreCountry,Regular,Text,Data,,,,StoreCountry,None
 Default,DIM_Stores,StoreState,Regular,Text,Data,,,,StoreState,None
-Default,Table,SummarizeBy,Regular,Text,CalculatedTableColumn,,,,SummarizeBy,None
-Default,Table,Table,Regular,Text,CalculatedTableColumn,,,,Table,None
-Default,Table,Type,Regular,Text,CalculatedTableColumn,,,,Type,None
-Default,Table_TopButtom_Sclicer,Value,Regular,Text,Data,,,,Value,None
-Default,Table,IsAvailableInMDX,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsAvailableInMDX,None
-Default,Table,IsHidden,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsHidden,None
-Default,Table,IsKey,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsKey,None
-Default,Table,IsNullable,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsNullable,None
-Default,Table,IsUnique,Regular,True/False,CalculatedTableColumn,,"""TRUE"";""TRUE"";""FALSE""",,IsUnique,None
 Default, Measures,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
 Default,AVG_Parameter,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
 Default,Calender,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,RowNumber,Integer,RowNumber,,,,RowNumber-2662979B-1795-4F74-8F37-6A1BA8059B61,Default
