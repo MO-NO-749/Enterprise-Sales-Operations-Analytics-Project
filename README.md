@@ -4,6 +4,25 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 
 **This project demonstrates a full-stack analytics project built on SQL Server using Medallion Architecture, delivering a 6-page Power BI report covering sales performance, product analysis, customer behaviour, purchase patterns, store efficiency, and order operations — across ₹55.76M in total revenue from 2016 to 2021.**
 
+## 🗂️ Project Structure
+
+```
+├── SQL/
+│   ├── Bronze/
+│   │   ├── DDL_bronze_dbo.sql              # Creates raw Transactions table
+│   │   └── load_data_BRONZE_Procedure.sql  # Stored procedure: BULK INSERT from CSV
+│   ├── Silver/
+│   │   └── Normalization_and_Cleaning.sql  # Creates 8 SQL Views (normalized tables)
+│   └── Gold/
+│       └── Power_Query_transformations.sql # Age calculation + derived columns for PBI
+├── PowerBI/
+│   └── EnterpriseAnalytics.pbix
+└── Docs/
+    ├── Data_Catalog.md
+    ├── Data_Model.md
+    └── Functional_Requirements.md
+```
+
 ## 🏗️ Data Architecture
 The data architecture for this project follows Medallion Architecture **Bronze**, **Silver**, and **Gold** layers:
 ![Data Layer](DOC/Data%20Layer.png)
@@ -42,6 +61,9 @@ Develop a modern data warehouse using SQL Server to Normalize Transaction data, 
 - **MSSQL SERVER**
 - **draw.io**
 - **Power BI**
+- **Data Studio**
+- **Notion**
+
 
 
 ### BI: Analytics & Reporting (Data Analysis)
