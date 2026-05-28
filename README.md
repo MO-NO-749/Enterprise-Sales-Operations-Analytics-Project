@@ -19,7 +19,9 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 │   └── EnterpriseAnalytics.pbix
 └── Docs/
     ├── Data_Catalog.md
-    ├── Data_Model.md
+    ├── Data_Model.png
+    ├── Data_Layer.png
+    ├── Data flow.png
     └── Functional_Requirements.md
 ```
 
