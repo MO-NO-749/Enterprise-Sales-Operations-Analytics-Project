@@ -101,7 +101,7 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 ---
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
 
-For more details, refer to [Documentation](DOC/) & [Metadata](Dataset/Metadata)
+> For more details, refer to [Documentation](DOC/) & [Metadata](Dataset/Metadata)
 ---
 
 ## 🛡️ License
