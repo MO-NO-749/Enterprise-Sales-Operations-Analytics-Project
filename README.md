@@ -3,7 +3,7 @@
 Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 
 **This project demonstrates a full-stack analytics project built on SQL Server using Medallion Architecture, delivering a 6-page Power BI report covering sales performance, product analysis, customer behaviour, purchase patterns, store efficiency, and order operations — across ₹55.76M in total revenue from 2016 to 2021.**
-
+---
 ## 🗂️ Project Structure
 
 ```
@@ -24,7 +24,7 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
     ├── Data flow.png
     └── Functional_Requirements.md
 ```
-
+---
 ## 🏗️ Data Architecture
 The data architecture for this project follows Medallion Architecture **Bronze**, **Silver**, and **Gold** layers:
 ![Data Layer](DOC/Data%20Layer.png)
@@ -58,6 +58,7 @@ Develop a modern data warehouse using SQL Server to Normalize Transaction data, 
 - **Normalization**: separeted into multiple sources{Tables} ,Snowflack data model designed for analytical queries and scalability.
 - **Scope**: Focus on the latest dataset only; historization of data is not required.
 - **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
+--- 
 
 ### Tools used
 - **MSSQL SERVER**
@@ -65,8 +66,7 @@ Develop a modern data warehouse using SQL Server to Normalize Transaction data, 
 - **Power BI**
 - **Data Studio**
 - **Notion**
-
-
+---
 
 ### BI: Analytics & Reporting (Data Analysis)
 
@@ -77,7 +77,7 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 - **Sales Trends**
 - **Purchase Behavior**
 - **Delivery Performance**
-
+---
 ## 🚀 Key Findings
 
 1. **Peak revenue year was 2019** — declined sharply in 2020–2021
@@ -102,6 +102,7 @@ Develop Power BI Dashboard for analytics to deliver detailed insights into:
 These insights empower stakeholders with key business metrics, enabling strategic decision-making.  
 
 For more details, refer to [Documentation](DOC/) & [Metadata](Dataset/Metadata)
+---
 
 ## 🛡️ License
 
