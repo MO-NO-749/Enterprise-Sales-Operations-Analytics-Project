@@ -10,11 +10,19 @@ BEGIN TRY
 		PRINT '==========================';
 	SET @START_TIME = GETDATE();
 		PRINT '>> LOADING DATA INTO dbo.Transactions';
+		-- 1. Check if the table exists in the database schema
+	IF OBJECT_ID('dbo.Transactions', 'U') IS NOT NULL
+	BEGIN
+    -- 2. If it exists, wipe all existing data instantly
+		TRUNCATE TABLE dbo.Transactions;
+	END
 		BULK INSERT dbo.Transactions
 		FROM 'E:\EXCEL_POWERBI_SQL_PROJECT\End-to-End Commerce Analytics\normalizatin - quistion_MAIN FILE\Transactions.csv'
+	-- please use your own file location 
 		WITH (
 			FIRSTROW = 2,
 			FIELDTERMINATOR= ',',
+			ROWTERMINATOR = '\n',
 			TABLOCK 
 			);
 	SET @END_TIME = GETDATE();
