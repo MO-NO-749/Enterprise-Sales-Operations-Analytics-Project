@@ -2,7 +2,7 @@
 
 Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 
-*This project demonstrates a full-stack analytics project built on SQL Server using the Medallion Architecture, delivering a Six-page Power BI report covering sales performance, product analysis, customer behaviour, purchase patterns, store efficiency, and order operations — across ₹55.76M in total revenue from 2016 to 2021.*
+** This project demonstrates a full-stack analytics project built on SQL Server using the Medallion Architecture, delivering a Six-page Power BI report covering sales performance, product analysis, customer behaviour, purchase patterns, store efficiency, and order operations — across ₹55.76M in total revenue from 2016 to 2021. **
 ---
 ## 🗂️ Project Structure
 
