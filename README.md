@@ -17,12 +17,13 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 │       └── Power_Query_transformations.sql # Age calculation + derived columns for PBI
 ├── PowerBI/
 │   └── EnterpriseAnalytics.pbix
-└── Docs/
-    ├── Data_Catalog.md
-    ├── Data_Model.png
-    ├── Data_Layer.png
-    ├── Data flow.png
-    └── Functional_Requirements.md
+├── Docs/
+│    ├── Data_Catalog.md|    
+│    ├── Data_Model.png
+│    ├── Data_Layer.png
+│    ├── Data flow.png
+│    └── Functional_Requirements.md
+└── Dashboard screenshots/
 ```
 ---
 ## 🏗️ Data Architecture
