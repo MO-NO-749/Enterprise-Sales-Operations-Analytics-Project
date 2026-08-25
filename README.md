@@ -30,7 +30,7 @@ The data architecture for this project follows Medallion Architecture **Bronze**
 ![Data Layer](DOC/Data%20Layer.png)
 1. **Bronze Layer**: This layer contains Raw data .
 2. **Silver Layer**: This layer includes data cleansing, standardization, and normalization processes to prepare data for analysis.
-3. **Gold Layer**: Houses business-ready semantic data modeled into a snowflake schema for reporting, analytics and proformance.
+3. **Gold Layer**: Houses business-ready semantic data modeled into a snowflake schema for reporting, analytics and performance.
 
 ---
 
@@ -50,12 +50,12 @@ This project involves:
 ### Building the Dashboard
 
 #### Objective
-Develop a modern data warehouse using SQL Server to Normalize Transaction data, enabling analytical reporting and informed decision-making though Power Bi Visuals.
+Develop a modern data warehouse using SQL Server to Normalize Transaction data, enabling analytical reporting and informed decision-making through Power Bi Visuals.
 
 #### Specifications
 - **Data Sources**: Import data from provided CSV files.
 - **Data Quality**: Cleanse and resolve data quality issues prior to analysis.
-- **Normalization**: separeted into multiple sources Tables ,A snowflack data model designed for analytical queries and scalability.
+- **Normalization**: separeted into multiple source Tables ,A snowflake data model designed for analytical queries and scalability.
 - **Scope**: Focus on the latest dataset only; data historization is not required.
 - **Documentation**: Provide clear documentation of the data model to support both business stakeholders and analytics teams.
 --- 
@@ -110,7 +110,7 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 
 ## 🌟 About Me
 
-Hi there! I'm **Monojit Samanta**. I’m a B.com graduate want to excel in my professional life with data in front and finance as domain.
+Hi there! I'm **Monojit Samanta**. I’m a B.com graduate who want to excel in my professional life with data in front and finance as domain.
 
 Let's stay in touch! Feel free to connect with me on the following platform:
 
