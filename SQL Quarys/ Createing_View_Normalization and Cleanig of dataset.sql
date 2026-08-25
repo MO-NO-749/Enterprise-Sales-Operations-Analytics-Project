@@ -66,7 +66,7 @@ CREATE VIEW [Order_Line_Items] AS
 
 -- Creating view table Store_Product_Relation 
 
-   CREATE VIEW Stores AS 
+   CREATE VIEW Store_Product_Relation AS 
    SELECT DISTINCT [StoreID]
       ,[ProductID]
    FROM Transactions
