@@ -15,6 +15,7 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 │   │   └── Normalization_and_Cleaning.sql  # Creates 8 SQL Views (normalized tables)
 │   └── Gold/
 │       └── Power_Query_transformations.sql # Age calculation + derived columns for PBI
+│
 ├── PowerBI/ EnterpriseAnalytics.pbix
 │
 ├── Docs/
