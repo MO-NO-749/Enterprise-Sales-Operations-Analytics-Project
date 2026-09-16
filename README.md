@@ -18,6 +18,16 @@ Welcome to the **Enterprise Sales & Operations Analytics** repository! 🚀
 │
 ├── PowerBI/ EnterpriseAnalytics.pbix
 │
+├── DataSet/
+│   ├─ Metadata/
+│   │    ├── BI DAX measures.csv
+│   │    ├── BI Table relation.csv
+│   │    ├── BI Table coluns.csv
+│   │    ├── BI Tables.csv
+│   │    ├── Server Schema Table.csv
+│   │    └── Server Schema columns.csv
+│   └── Transactions.csv 
+│
 ├── Docs/
 │    ├── Data_Catalog.md    
 │    ├── Data_Model.png
